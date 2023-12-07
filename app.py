@@ -1,7 +1,10 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
+from wtforms import FileField, SubmitField
 from wtforms.validators import DataRequired
+from PIL import Image
+import io
+import base64
 
 # Create flask instance
 app = Flask(__name__)
@@ -9,33 +12,33 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = "123"
 
 
+class UploadForm(FlaskForm):
+    image = FileField("Upload Image", validators=[DataRequired()])
+    submit = SubmitField("Submit")
+
+
 # Create a URL route in our application for "/"
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def index():
-    return render_template("index.html")
+    form = UploadForm()
 
+    if form.validate_on_submit():
+        # Get the uploaded image
+        uploaded_image = form.image.data
 
-# @app.route("/make_query", methods=["GET", "POST"])
-# def query():
-#     query_by_user = None
-#     form = QueryForm()
+        # Process the image using PIL
+        image = Image.open(uploaded_image)
+        # Add your image processing logic here
 
-#     if form.validate_on_submit():
-#         query_by_user = form.query_by_user.data
-#         form.query_by_user.data = ""
+        # Save the processed image to a BytesIO object
+        img_buffer = io.BytesIO()
+        image.save(img_buffer, format="PNG")
+        img_buffer.seek(0)
 
-#     if query_by_user is None:
-#         results = None
-#         columns = None
-#         n_columns = None
-#     else:
-#         results, columns, n_columns = doing_query(query_by_user)
+        # Encode the image data to Base64
+        img_data_base64 = base64.b64encode(img_buffer.getvalue()).decode("utf-8")
 
-#     return render_template(
-#         "query.html",
-#         form=form,
-#         query_by_user=query_by_user,
-#         results=results,
-#         columns=columns,
-#         n_columns=n_columns,
-#     )
+        # Render a new template with the processed image
+        return render_template("results.html", img_data_base64=img_data_base64)
+
+    return render_template("index.html", form=form)
