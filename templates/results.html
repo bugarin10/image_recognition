@@ -67,12 +67,11 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-xs-3">
-							<div id="fh5co-logo"><a href="index.html">Rafael Davila<span>.</span></a></div>
+							<div id="fh5co-logo"><a href="{{url_for('index')}}">Rafael Davila<span>.</span></a></div>
 						</div>
 						<div class="col-xs-10 text-right menu-1">
 							<ul>
-								<li><a href="about.html">About</a></li>
-								<li><a href="contact.html">Contact</a></li>
+								<li><a href ="https://www.linkedin.com/in/rafael-davila-bugarin-87727887/" target="https://www.linkedin.com/in/rafael-davila-bugarin-87727887/">Contact</a></li>
 							</ul>
 						</div>
 					</div>
@@ -85,10 +84,9 @@
 		<div class="container">
 			<div class="row animate-box">
 				<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
-					<h2>This is the image</h2>
+					<h2>This is a {{result}}</h2>
 					<div class="image-container">
 					<img src="data:image/png;base64,{{ img_data_base64 }}" alt="Processed Image">
-					<p> The prediction is: {{result}}</p>
 					</div>
 				</div>
 			</div>
