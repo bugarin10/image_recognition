@@ -1,5 +1,9 @@
 # Image Recognition
 
+Website [here](https://imgrec.azurewebsites.net/)
+
+Video [here](https://www.youtube.com/watch?v=BKOTL1aNSCs)
+
 In this repo a microservise was created to deploy an Azure Web App.
 First, I found a good template with CSS and HTML files edit.
 Second, I looked for a Pytorch model that recognizes images, for that I used a pre-model built in `torchvision` called ResNet.
